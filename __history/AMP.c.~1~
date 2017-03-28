@@ -22,7 +22,7 @@ int8 AMP_ADD = 0xD8;
 
 /////////Function declaration//////
 
-int StartUp_amp();
+int8 StartUp_amp();
 ///////////////////////////////////
 void main()
 {
