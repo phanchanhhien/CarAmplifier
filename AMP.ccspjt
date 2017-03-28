@@ -1,0 +1,16 @@
+[PROJECT]
+Target=AMP.hex
+Processor_Text=PIC12F629
+CCSVersion=5.015
+Compiler=PCM
+[Target Data]
+FileList=AMP.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[AMP.c]
+Type=4
+[mru-list]
+1=AMP.c
+[Units]
+Count=1
+1=AMP (main)

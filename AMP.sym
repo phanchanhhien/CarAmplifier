@@ -1,0 +1,52 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+019.6   C1OUT
+020     @SCRATCH
+021     @SCRATCH
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     AMP_ADD
+025     @I2C_WRITE_1.P1
+025     main.@SCRATCH1
+025     StartUp_amp.@SCRATCH1
+026     @delay_ms1.P1
+09B-09C @READ_PROGRAM_MEMORY8.P1
+
+ROM Allocation:
+00000A  @delay_ms1
+00001E  @I2C_WRITE_1
+000052  StartUp_amp
+00008A  main
+00008A  @cinit1
+000091  @cinit2
+
+Project Directory:
+    D:\Github\CarAmplifier\
+
+Project Files:
+    AMP.c                                                   [27-Mar-17 14:31  CRC=1F8A3E12]
+    C:\Program Files (x86)\PICC\Devices\12f629.h            [12-Nov-13 14:34  CRC=140BDE15]
+
+Source signature=47A1FA3C
+
+Units:
+    AMP (main)
+
+Compiler Settings:
+    Processor:      PIC12F629
+    Pointer Size:   8
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    XREF file:   AMP.xsym
+    Errors:      AMP.err
+    Ext Symbols: AMP.esym
+    INHX8:       AMP.hex
+    Symbols:     AMP.sym
+    List:        AMP.lst
+    Debug/COFF:  AMP.cof
+    Project:     AMP.ccspjt
+    Call Tree:   AMP.tre
+    Statistics:  AMP.STA

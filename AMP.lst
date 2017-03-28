@@ -1,0 +1,251 @@
+CCS PCM C Compiler, Version 5.015, 5967               28-Mar-17 22:29
+
+               Filename:   D:\Github\CarAmplifier\AMP.lst
+
+               ROM used:   155 words (15%)
+                           Largest free fragment is 869
+               RAM used:   6 (9%) at main() level
+                           7 (11%) worst case
+               Stack used: 2 locations
+               Stack size: 8
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   004
+0003:  NOP
+0004:  CALL   3FF
+0005:  BSF    03.5
+0006:  MOVWF  10
+0007:  MOVLW  00
+0008:  MOVWF  0A
+0009:  GOTO   08A
+.................... #include <12f629.h> 
+.................... //////////// Standard Header file for the PIC12F629 device //////////////// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... ////        (C) Copyright 1996, 2013 Custom Computer Services          //// 
+.................... //// This source code may only be used by licensed users of the CCS C  //// 
+.................... //// compiler.  This source code may only be distributed to other      //// 
+.................... //// licensed users of the CCS C compiler.  No other use, reproduction //// 
+.................... //// or distribution is permitted without written permission.          //// 
+.................... //// Derivative programs created using this software in object code    //// 
+.................... //// form are not restricted in any way.                               //// 
+.................... /////////////////////////////////////////////////////////////////////////// 
+.................... #device PIC12F629 
+....................  
+.................... #list 
+....................  
+....................  
+.................... #FUSES INTRC_IO, NOWDT, PUT, NOPROTECT, NOMCLR, BROWNOUT  
+.................... #use delay(clock=4000000) 
+000A:  MOVLW  26
+000B:  MOVWF  04
+000C:  MOVF   00,W
+000D:  BTFSC  03.2
+000E:  GOTO   01D
+000F:  MOVLW  01
+0010:  MOVWF  21
+0011:  CLRF   20
+0012:  DECFSZ 20,F
+0013:  GOTO   012
+0014:  DECFSZ 21,F
+0015:  GOTO   011
+0016:  MOVLW  4A
+0017:  MOVWF  20
+0018:  DECFSZ 20,F
+0019:  GOTO   018
+001A:  GOTO   01B
+001B:  DECFSZ 00,F
+001C:  GOTO   00F
+001D:  RETURN
+.................... #use standard_io (A) 
+....................  
+....................  // Pin defines 
+.................... #define Device_SDA PIN_A0 
+.................... #define Device_SCL  PIN_A1 
+.................... #use i2c(master, sda=Device_SDA, scl=Device_SCL,FORCE_SW)  // Configure Device as Master 
+001E:  MOVLW  08
+001F:  MOVWF  21
+0020:  NOP
+0021:  BCF    05.1
+0022:  BSF    03.5
+0023:  BCF    05.1
+0024:  NOP
+0025:  BCF    03.5
+0026:  RLF    25,F
+0027:  BCF    05.0
+0028:  BTFSS  03.0
+0029:  GOTO   02D
+002A:  BSF    03.5
+002B:  BSF    05.0
+002C:  BCF    03.5
+002D:  BTFSC  03.0
+002E:  GOTO   032
+002F:  BSF    03.5
+0030:  BCF    05.0
+0031:  BCF    03.5
+0032:  BSF    03.5
+0033:  BSF    05.1
+0034:  BCF    03.5
+0035:  BTFSS  05.1
+0036:  GOTO   035
+0037:  DECFSZ 21,F
+0038:  GOTO   020
+0039:  NOP
+003A:  BCF    05.1
+003B:  BSF    03.5
+003C:  BCF    05.1
+003D:  NOP
+003E:  BSF    05.0
+003F:  NOP
+0040:  NOP
+0041:  BSF    05.1
+0042:  BCF    03.5
+0043:  BTFSS  05.1
+0044:  GOTO   043
+0045:  CLRF   21
+0046:  NOP
+0047:  BTFSC  05.0
+0048:  BSF    21.0
+0049:  BCF    05.1
+004A:  BSF    03.5
+004B:  BCF    05.1
+004C:  BCF    03.5
+004D:  BCF    05.0
+004E:  BSF    03.5
+004F:  BCF    05.0
+0050:  BCF    03.5
+0051:  RETURN
+.................... #define CLIP_DET PIN_A4 
+.................... ///////////////////////////////// 
+.................... ///////////////////////////////// 
+....................  
+.................... #define WRT  0xFE; 
+.................... #define RD   0x01; 
+.................... //////////////////////// 
+.................... #define TIMEOFF    50 // base 10ms  
+....................  
+.................... int8 AMP_ADD = 0xD8; 
+....................  
+....................  
+.................... /////////Function declaration////// 
+....................  
+.................... int8 StartUp_amp(); 
+.................... /////////////////////////////////// 
+.................... void main() 
+*
+008A:  MOVF   03,W
+008B:  ANDLW  1F
+008C:  MOVWF  03
+008D:  MOVLW  D8
+008E:  MOVWF  24
+008F:  MOVLW  07
+0090:  MOVWF  19
+.................... { 
+....................  
+.................... //ext_int_edge(L_TO_H);      // init interrupt triggering for button press 
+.................... //enable_interrupts(INT_EXT); //turn on interrupts 
+.................... //enable_interrupts(GLOBAL); 
+.................... delay_ms(500); 
+0091:  MOVLW  02
+0092:  MOVWF  25
+0093:  MOVLW  FA
+0094:  MOVWF  26
+0095:  CALL   00A
+0096:  DECFSZ 25,F
+0097:  GOTO   093
+....................  
+.................... StartUP_amp(); 
+0098:  GOTO   052
+....................  
+....................  
+.................... while (1); 
+0099:  GOTO   099
+.................... } 
+....................  
+009A:  SLEEP
+.................... /////////// 
+.................... int StartUp_amp() 
+.................... { 
+....................    
+....................   OUTPUT_LOW(CLIP_DET); 
+*
+0052:  BSF    03.5
+0053:  BCF    05.4
+0054:  BCF    03.5
+0055:  BCF    05.4
+....................   delay_ms(1000); 
+0056:  MOVLW  04
+0057:  MOVWF  25
+0058:  MOVLW  FA
+0059:  MOVWF  26
+005A:  CALL   00A
+005B:  DECFSZ 25,F
+005C:  GOTO   058
+....................   I2c_start(); 
+005D:  BSF    03.5
+005E:  BSF    05.0
+005F:  NOP
+0060:  BSF    05.1
+0061:  NOP
+0062:  BCF    03.5
+0063:  BCF    05.0
+0064:  BSF    03.5
+0065:  BCF    05.0
+0066:  NOP
+0067:  BCF    03.5
+0068:  BCF    05.1
+0069:  BSF    03.5
+006A:  BCF    05.1
+....................   i2c_write(AMP_ADD);            // I2C write address 
+006B:  BCF    03.5
+006C:  MOVF   24,W
+006D:  MOVWF  25
+006E:  CALL   01E
+....................   i2c_write(0x01|0x80);          //Ready Set pointer to control Byte 1, use Page write auto increment pointer 
+006F:  MOVLW  81
+0070:  MOVWF  25
+0071:  CALL   01E
+....................   i2c_write(0xff);               // Control byte 1 = 0xff Gain = 12dB, enable diagnostic 
+0072:  MOVLW  FF
+0073:  MOVWF  25
+0074:  CALL   01E
+....................   i2c_write(0x10);               //control byte 2 = 0x10 to turn on Amplifier 
+0075:  MOVLW  10
+0076:  MOVWF  25
+0077:  CALL   01E
+....................   I2c_stop(); 
+0078:  BSF    03.5
+0079:  BCF    05.0
+007A:  NOP
+007B:  BSF    05.1
+007C:  BCF    03.5
+007D:  BTFSS  05.1
+007E:  GOTO   07D
+007F:  NOP
+0080:  GOTO   081
+0081:  NOP
+0082:  BSF    03.5
+0083:  BSF    05.0
+0084:  NOP
+....................    
+....................  // delay_ms(10); 
+....................  // I2c_start(); 
+....................  // i2c_write(AMP_ADD); 
+....................  // i2c_write(0x01);             //Ready Set pointer to control Byte 1 
+....................  // i2c_write(0xff);               // Control byte 1 = 0xff Gain = 12dB, enable diagnostic 
+....................  // i2c_write(0x10);  
+....................  // i2c_stop(); 
+....................  OUTPUT_FLOAT(CLIP_DET);   // set CLIP_DET to High Z (INPUT) 
+0085:  BSF    05.4
+.................... return 0; 
+0086:  MOVLW  00
+0087:  BCF    03.5
+0088:  MOVWF  21
+0089:  GOTO   099 (RETURN)
+.................... } 
+....................  
+....................  
+
+Configuration Fuses:
+   Word  1: 3FC4   INTRC_IO NOWDT PUT NOMCLR BROWNOUT NOPROTECT NOCPD
